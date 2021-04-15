@@ -1,39 +1,126 @@
 #include <ncurses.h>
+#include "coordinates.hpp"
+
 #define FIELD_SIZE_X 20
 #define FIELD_SIZE_Y 10
 
-struct Position{
-    int x,y;
-}
+typedef unsigned char uint8;
 
-
-template <class T>
 class Shape{
 public:
-    explicit Shape(const int size) : size_(size){}
-
-    virtual void print();
-    void changePosition(int8 direction);
+    void move(uint8 direction);
+    bool set_shape();
+    virtual void print_shape() = 0;
+    void rotate(); //nope
+    virtual bool can_rotate() = 0;
+    //void changePosition(int8 direction);
     virtual ~Shape();
 private:
-    T *block_;
-    int size_;
-    Position *position_;
+    uint8 *block_;//4
+    uint8 size_;//4
+    Position *position_;//4     
+protected:
+    explicit Shape(uint8 *block, uint8 size, uint8 colour, Position *position);
 };
 
-class Field : public Shape{
-    Field() : Shape<short int*>(FIELD_SIZE_y) {}
-    
-    void print(){
-        for(int i = FIELD_SIZE_Y; i >= 0 ; i--){
-            for(int j = FIELD_SIZE_X; j >= 0 ; j--){
-                move(getPosition() + i, j);
-                printw("%d", (block_[i] >> j) && 1); //в блоке хранится вся строка. для отображения одного символа из 10 пока что буду использовать такой синтаксис
-            }
-        }
-    }
+class Shape_J : public Shape{
+public:
+    Shape_J(); //вызывается конструктор Shape
+    void rotate();
+    bool can_rotate();
 
-    void deleteLine(int lineNum);
 private:
-    
+    int colour;
 };
+
+class Shape_I : public Shape{
+public:
+    Shape_I(); //вызывается конструктор Shape
+    void rotate();
+    bool can_rotate();
+
+private:
+    int colour;
+};
+
+class Shape_O : public Shape{
+public:
+    Shape_O(); //вызывается конструктор Shape
+    void rotate();
+    bool can_rotate();
+
+private:
+    int colour;
+};
+
+class Shape_L : public Shape{
+public:
+    Shape_L(); //вызывается конструктор Shape
+    void rotate();
+    bool can_rotate();
+
+private:
+    int colour;
+};
+
+class Shape_Z : public Shape{
+public:
+    Shape_Z(); //вызывается конструктор Shape
+    void rotate();
+    bool can_rotate();
+
+private:
+    int colour;
+};
+
+class Shape_T : public Shape{
+public:
+    Shape_T(); //вызывается конструктор Shape
+    void rotate();
+    bool can_rotate();
+
+private:
+    int colour;
+};
+
+class Shape_S : public Shape{
+public:
+    Shape_S(); //вызывается конструктор Shape
+    void rotate();
+    bool can_rotate();
+
+private:
+    int colour;
+};
+
+class Field {
+public:
+    Field(); 
+    int fill(Shape *shape);//return value - score
+    void delete_line(short int num);
+    void print();//boarders and matrix
+private:
+    int matrix[FIELD_SIZE_X][FIELD_SIZE_Y];
+    char boarder;
+    Position position_; 
+};
+
+
+class Score{
+public:
+    //eran_points
+    //get_points - print current number of points
+    //print
+private:
+    int points_;
+    Position position;
+};
+
+
+//class Glass{
+
+
+
+
+
+//};
