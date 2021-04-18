@@ -1,18 +1,19 @@
+#pragma once
+
 #include <ncurses.h>
 #include "coordinates.hpp"
-
-#define FIELD_SIZE_X 20
-#define FIELD_SIZE_Y 10
+#include "field.hpp"
 
 typedef unsigned char uint8;
 
 class Shape{
 public:
-    void move(uint8 direction);
+    void move(int direction); //key_up, etc
     bool set_shape();
     virtual void print_shape() = 0;
     void rotate(); //nope
     virtual bool can_rotate() = 0;
+    virtual void set_colour() = 0;
     //void changePosition(int8 direction);
     virtual ~Shape();
 private:
@@ -20,7 +21,14 @@ private:
     uint8 size_;//4
     Position *position_;//4     
 protected:
-    explicit Shape(uint8 *block, uint8 size, uint8 colour, Position *position);
+    explicit Shape(uint8 *block, uint8 size, Position *position) : block_(block), size_(size){
+        for(uint8 i = 0; i < size; i++){
+            position_ = new Position[size_];
+            position_[i].x = position[i].x;
+            position_[i].y = position[i].y;
+        }
+        //set_colour(); //I should never use virtual funcs int the constractors
+    }
 };
 
 class Shape_J : public Shape{
@@ -92,35 +100,3 @@ public:
 private:
     int colour;
 };
-
-class Field {
-public:
-    Field(); 
-    int fill(Shape *shape);//return value - score
-    void delete_line(short int num);
-    void print();//boarders and matrix
-private:
-    int matrix[FIELD_SIZE_X][FIELD_SIZE_Y];
-    char boarder;
-    Position position_; 
-};
-
-
-class Score{
-public:
-    //eran_points
-    //get_points - print current number of points
-    //print
-private:
-    int points_;
-    Position position;
-};
-
-
-//class Glass{
-
-
-
-
-
-//};

@@ -2,6 +2,12 @@
 #include <unistd.h>
 #include <iostream>
 
-int main(argc, argv[]){
-    
+#include "shapes.hpp"
+#include "field.hpp"
+#include "coordinates.hpp"
+#include "game.hpp"
+
+int main(){
+
+    return 0;
 }
