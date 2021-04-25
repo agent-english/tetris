@@ -1,23 +1,21 @@
 #pragma once
 
-#define FIELD_SIZE_X 20
+#include "coordinates.hpp"
+
+#define FIELD_SIZE_X 10
 #define FIELD_SIZE_Y 10
 
-struct Position;
+//struct Position;
 
 struct Field{
 public:
-    void init_field();
+    Field();
     void fill();
     void delete_line();
     void print_field(); // with boarders
     void pritn_boarders();
 
 private:
-    Field(){
-        init_field();
-    }
-
     short int *matrix;
     char vertical_boarder_;
     char horizontal_boarder_;

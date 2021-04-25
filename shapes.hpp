@@ -10,10 +10,10 @@ class Shape{
 public:
     void move(int direction); //key_up, etc
     bool set_shape();
-    virtual void print_shape() = 0;
+    //virtual void print_shape() = 0;
     void rotate(); //nope
-    virtual bool can_rotate() = 0;
-    virtual void set_colour() = 0;
+    //virtual bool can_rotate() = 0;
+    //virtual void set_colour() = 0;
     //void changePosition(int8 direction);
     virtual ~Shape();
 private:

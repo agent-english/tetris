@@ -1,7 +1,7 @@
 #include "shapes.hpp"
 
-Shape::move(int direction){
-    switch(direction){
+void Shape::move(int direction){
+    /*switch(direction){
         case KEY_UP:
             y -= 1;
             break;
@@ -17,5 +17,5 @@ Shape::move(int direction){
         case 'q':
             break;
         }
-    }
+    }*/
 }
