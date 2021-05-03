@@ -3,7 +3,7 @@
 #include "coordinates.hpp"
 
 #define FIELD_SIZE_X 10
-#define FIELD_SIZE_Y 10
+#define FIELD_SIZE_Y 20
 
 //struct Position;
 

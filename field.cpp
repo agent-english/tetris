@@ -30,10 +30,10 @@ void Field::print_field(){
         attroff(COLOR_PAIR(1));
         //attron(COLOR_PAIR(2));
         for(int j = FIELD_SIZE_X - 1; j >= 0; j--){
-            move(temp.y, temp.x);
-            //if(*matrix + i && (0x1 << j)) addstr("Co"); // some temp value. i will put matrix here
+            //if(*(matrix + i) && (0x1 << j)) addstr("Co"); // some temp value. i will put matrix here
             addstr("Co");
             temp.x += 2;
+            move(temp.y, temp.x);
         }
         attron(COLOR_PAIR(1));
         addch(vertical_boarder_);
