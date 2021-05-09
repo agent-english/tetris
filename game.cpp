@@ -15,7 +15,7 @@ int Game::init(){
     return 0;
 }
 
-int Game::mainloop(){
+/*int Game::mainloop(){
     static bool gameOver = 0;
     static bool nextShape = 0;
     Field *field = new Field;
@@ -65,6 +65,29 @@ int Game::mainloop(){
             currentShape->~Shape();
             currentShape = NULL;
         }
+    }
+    //sleep(100);
+    return 0;
+}
+*/
+int Game::mainloop(){
+    static bool gameOver = 0;
+    static bool nextShape = 0;
+    Field *field = new Field;
+    Shape *currentShape = NULL;
+    while(!gameOver){
+        Shape_I shape;
+        currentShape = &shape;
+        currentShape->link_a_field(field);
+        field->print_field();
+        currentShape->print(field);   
+        currentShape->move(field);
+        refresh();
+        //if(currentShape->set_shape(field)){
+        //    field->delete_lines();
+        //    currentShape->~Shape();
+        //    currentShape = NULL;
+        //}
     }
     //sleep(100);
     return 0;

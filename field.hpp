@@ -2,18 +2,15 @@
 
 #include "coordinates.hpp"
 
-#define FIELD_SIZE_X 10
-#define FIELD_SIZE_Y 20
-
 //struct Position;
 
 struct Field{
 public:
     Field();
-    void fill();
+    bool fill(Position *position);
+    void print_currentShape(Shape currentShape);
     void delete_line();
     void print_field(); // with boarders
-    void pritn_boarders();
 
 private:
     short int *matrix;

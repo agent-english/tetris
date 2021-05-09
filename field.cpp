@@ -1,8 +1,8 @@
 #include "field.hpp"
-#include "coordinates.hpp"
 #include <ncurses.h>
 #include <unistd.h>
 #include <iostream>
+
 using namespace std;
 
 Field::Field(){
@@ -10,10 +10,15 @@ Field::Field(){
     for(int i = 0; i < FIELD_SIZE_X; matrix[i++] = 0);//matrix init
     vertical_boarder_ = '|';
 
-    int centre_x = getmaxx(stdscr) / 2; 
-    int centre_y = getmaxy(stdscr) / 2;
-    position_.x = centre_x - FIELD_SIZE_X;
-    position_.y = centre_y - (FIELD_SIZE_Y / 2);
+    /* int centre_x = getmaxx(stdscr) / 2; */ 
+    /* int centre_y = getmaxy(stdscr) / 2; */
+    position_.x = CENTRE_X - FIELD_SIZE_X;
+    position_.y = CENTRE_Y - (FIELD_SIZE_Y / 2);
+}
+
+bool Field::fill(Position *position){
+    if(*(matrix + position->y) && (1 << position.x)) return true;
+    else return false;
 }
 
 void Field::print_field(){
@@ -46,6 +51,9 @@ void Field::print_field(){
         addstr("//"); // some temp value. i will put matrix here
         temp.x += 2;
     }
+}
+
+void Field::print_currentShape(Shape *currentShape){
 
 }
 
