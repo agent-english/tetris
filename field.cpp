@@ -6,24 +6,30 @@
 using namespace std;
 
 Field::Field(){
-    matrix = new short int[FIELD_SIZE_Y];
-    for(int i = 0; i < FIELD_SIZE_X; matrix[i++] = 0);//matrix init
+    matrix_ = new short int[FIELD_SIZE_Y];
+    for(int i = 0; i < FIELD_SIZE_X; matrix_[i++] = 0);//matrix init
     vertical_boarder_ = '|';
 
     /* int centre_x = getmaxx(stdscr) / 2; */ 
     /* int centre_y = getmaxy(stdscr) / 2; */
-    position_.x = CENTRE_X - FIELD_SIZE_X;
-    position_.y = CENTRE_Y - (FIELD_SIZE_Y / 2);
+    Position temp;
+    temp.x = CENTRE_X - FIELD_SIZE_X;
+    temp.y = CENTRE_Y - (FIELD_SIZE_Y / 2);
+    position_ = temp;
 }
 
 bool Field::fill(Position *position){
-    if(*(matrix + position->y) && (1 << position.x)) return true;
+    if(*(matrix_ + position->y) && (1 << position->x)) return true;
     else return false;
 }
 
+short int ** Field::get_matrix(){  
+    return &matrix_;
+}
+
 void Field::print_field(){
-    init_pair(1, COLOR_BLACK, COLOR_WHITE); /* create foreground / background combination */
-    init_pair(2, COLOR_BLUE, COLOR_BLUE);
+    //init_pair(1, COLOR_BLACK, COLOR_WHITE); /* create foreground / background combination */
+    //init_pair(2, COLOR_BLUE, COLOR_BLUE);
     
     Position temp = position_;
 
@@ -33,9 +39,9 @@ void Field::print_field(){
         addch(vertical_boarder_);
         temp.x += 1;
         attroff(COLOR_PAIR(1));
-        //attron(COLOR_PAIR(2));
+        attron(COLOR_PAIR(1));
         for(int j = FIELD_SIZE_X - 1; j >= 0; j--){
-            if(*(matrix + i) && (0x1 << j)) addstr("Co"); // some temp value. i will put matrix here
+            if(*(matrix_ + i) && (0x1 << j)) addstr("Co"); // some temp value. i will put matrix here
             //addstr("Co");
             temp.x += 2;
             move(temp.y, temp.x);
@@ -53,7 +59,7 @@ void Field::print_field(){
     }
 }
 
-void Field::print_currentShape(Shape *currentShape){
-
+Position Field::get_position(){
+    return position_;
 }
 

@@ -4,13 +4,21 @@
 #include "shapes.hpp"
 #include <unistd.h>
 
-volatile int gameOver = 0;
+volatile bool gameOver = false;
 
 int Game::init(){
     initscr();
-    nodelay(stdscr, true); // 
+    nodelay(stdscr, true); //
     keypad(stdscr, true); //inits keypad
     start_color();
+    init_pair(1, COLOR_BLACK, COLOR_WHITE); //boarders
+    init_pair(2, COLOR_CYAN, COLOR_CYAN); // I
+    init_pair(3, COLOR_BLUE, COLOR_BLUE);
+    init_pair(4, COLOR_YELLOW, COLOR_YELLOW);
+    init_pair(5, COLOR_WHITE, COLOR_WHITE);
+    init_pair(6, COLOR_RED, COLOR_RED);
+    init_pair(7, COLOR_MAGENTA, COLOR_MAGENTA);
+    init_pair(8, COLOR_GREEN, COLOR_GREEN);
     curs_set(0); //makes cursor invisible 
     return 0;
 }
@@ -71,24 +79,27 @@ int Game::init(){
 }
 */
 int Game::mainloop(){
-    static bool gameOver = 0;
     static bool nextShape = 0;
     Field *field = new Field;
     Shape *currentShape = NULL;
+    Shape_I shape(field);
+    currentShape = &shape;
     while(!gameOver){
-        Shape_I shape;
+        Shape_I shape(field);
         currentShape = &shape;
-        currentShape->link_a_field(field);
-        field->print_field();
-        currentShape->print(field);   
-        currentShape->move(field);
+        field->print_field();   
+        currentShape->move_shape();
+        currentShape->print();
         refresh();
-        //if(currentShape->set_shape(field)){
-        //    field->delete_lines();
-        //    currentShape->~Shape();
-        //    currentShape = NULL;
-        //}
+        usleep(50000);
+        clear();
+        /* if(currentShape->check_hit()){
+            field->delete_lines();
+            currentShape->~Shape();
+            currentShape = NULL;
+        } */
     }
-    //sleep(100);
+    endwin();
+    sleep(100);
     return 0;
 }

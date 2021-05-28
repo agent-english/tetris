@@ -4,68 +4,70 @@
 #include "coordinates.hpp"
 #include "field.hpp"
 
+#define COLOR_I 2
+#define COLOR_J 3
+#define COLOR_O 4
+#define COLOR_L 5
+#define COLOR_Z 6
+#define COLOR_T 7
+#define COLOR_S 8
+
 typedef unsigned char uint8;
 
 class Shape{
 public:
-    explicit Shape(uint8 size) : size_(size){
+    explicit Shape(Field *field, uint8 size) : size_(size){
         block_ = new uint8[size_];
-        position_ = new Position[size_];
+        startPosition_.x = CENTRE_X + FIELD_SIZE_X;
+        startPosition_.y = CENTRE_Y - FIELD_SIZE_Y / 2;
+        //move(startPosition_.y,startPosition_.x);
+        //addch('s');
+        offset_ = new Position[size_];
+        matrix_ = field->get_matrix();
         //I should never use virtual funcs int the constractors
     }
-    virtual void print() = 0;
-    void move();
-    //нужно определиться с тем как отображать фигуры на игровом поле. Когда стоит помещать их в матрицу?
-    //как вариант, сейчас предлагаю следующую схему: фигура вносится сразу в матрицу. Потом по мере погружения, когда 
-    //фигура достигнет дна стакана объект фигура удаляется и создается новый
-    
-    //Но такой вариант не подойдет, если я хочу сделать фигуры разного цвета.
-    //virtual void print_shape() = 0;
-    void rotate(); //nope
-    virtual ~Shape(){
-        delete [] block_;
-        delete [] position_;
-    }
-    //virtual bool can_rotate() = 0;
-    //virtual void set_colour() = 0;
-    //void changePosition(int8 direction);
-    void set_block(uint8 block);
-    void set_position(Position *position);
+    void init_offset(Position *offset);
+    Position *get_offset();
+    Position get_start_position();
     uint8 get_size();
-    void link_a_field(Field *field){
-        field_ = field;
+    virtual ~Shape(){
+        if(this != NULL){
+            delete [] block_;
+            delete [] offset_;
+        }
     }
+
+    void move_shape();
+    bool is_settable(Position *offset);
+    bool check_hit();
+    virtual void print() = 0;
+
 private:
     uint8 *block_;//4
-    uint8 size_;//4
-    Position *position_;//4 
-    Field *field_;    
-    //virtual ~Shape();//деструктор размещен здесь для того, 
-                       //чтобы автоматически не удалялся объект при выходе из функции
-
-protected:
-    //Shape();
+    uint8 size_;//4 
+    Position startPosition_;
+    Position *offset_; //4
+    short int **matrix_; //it is a pointer to field's matrix
 };
 
-class Shape_I : public Shape{
+class Shape_I : public Shape{ //start position: horizontal
 public:
-    Shape_I() : Shape(4){ //вызывается конструктор Shape
+    Shape_I(Field *field) : Shape(field, 4){ //вызывается конструктор Shape
         uint8 size = get_size();
-        uint8 block = 1;
-        Position *position = new Position[size];
+        Position *offset = new Position[size];
         for(uint8 i = 0; i < size; i++){
-            position[i].x = FIELD_SIZE_X / 2;
-            position[i].y = i;
+            offset[i].x = 6 - i;
+            offset[i].y = 0;
         }
-        set_block(block);
-        set_position(position);
-        delete [] position;
+        init_offset(offset);
+        delete [] offset;
+        colour_ = 1;
     }  
     void rotate();
     bool can_rotate();
     void print();
 private:
-    int colour;
+    int colour_; // CYAN
 };
 
 class Shape_J : public Shape{

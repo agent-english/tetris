@@ -8,12 +8,12 @@ struct Field{
 public:
     Field();
     bool fill(Position *position);
-    void print_currentShape(Shape currentShape);
-    void delete_line();
+    void delete_lines();
     void print_field(); // with boarders
-
+    Position get_position();
+    short int **get_matrix();
 private:
-    short int *matrix;
+    short int *matrix_;
     char vertical_boarder_;
     char horizontal_boarder_;
     Position position_;

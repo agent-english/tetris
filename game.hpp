@@ -4,5 +4,5 @@ class Game{
 public:
     int init();
     int mainloop();
+    void clock();
 };
-
