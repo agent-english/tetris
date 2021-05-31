@@ -85,8 +85,6 @@ int Game::mainloop(){
     Shape_I shape(field);
     currentShape = &shape;
     while(!gameOver){
-        Shape_I shape(field);
-        currentShape = &shape;
         field->print_field();   
         currentShape->move_shape();
         currentShape->print();

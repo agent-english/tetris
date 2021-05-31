@@ -38,27 +38,40 @@ void Shape::move_shape(){
         default:
             break;
         };
-    if(temp_x || temp_y){ //checks if some changes happend
+       
+      if((temp_x || temp_y) && !out_of_boarders(temp_x, temp_y)) { //checks if some changes happend and they are in the field area
         Position *temp = new Position[size_];
         for(uint i = 0; i < size_; i++){
             temp[i].x = offset_[i].x + temp_x;
             temp[i].y = offset_[i].y + temp_y;
         }
-        //if(is_settable(temp)){//checks if the movement is possible and set new offset values
+        if(is_settable(temp)){//checks if the movement is possible and set new offset values
             for(uint i = 0; i < size_; i++){
                 offset_[i].x = temp[i].x;
                 offset_[i].y = temp[i].y;
                 //sleep(5);
             }
-        //  }
+        }
     }
+}
+
+bool Shape::out_of_boarders(int x, int y){
+    int temp_x, temp_y;
+    for(uint i = 0; i < size_; i++){
+        temp_y = offset_[i].y + y;
+        temp_x = offset_[i].x + x;
+        if(temp_y > FIELD_SIZE_Y - 1 || temp_y < 0 || temp_x < 0 || temp_x > FIELD_SIZE_X - 1) return true;
+    }
+    return false;
 }
 
 bool Shape::is_settable(Position *offset){//this func works incorrect. do something with it
     bool result = true;
-    for(int i = 0; i < size_; i++){
-        result = *matrix_[offset[i].y] && 1 << offset_[i].x;
-        if(!result) {
+    bool match;
+    for(int i = 0; i < FIELD_SIZE_Y; i++){
+        match = *(*matrix_ + offset[i].y) && 1 << offset[i].x;
+        if(match) {
+            result = false;
             return result;
         }
     }

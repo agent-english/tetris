@@ -38,6 +38,7 @@ public:
     }
 
     void move_shape();
+    bool out_of_boarders(int x, int y);
     bool is_settable(Position *offset);
     bool check_hit();
     virtual void print() = 0;
