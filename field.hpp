@@ -7,7 +7,7 @@
 struct Field{
 public:
     Field();
-    bool fill(Position *position);
+    void fill(Position *position);
     void delete_lines();
     void print_field(); // with boarders
     Position get_position();

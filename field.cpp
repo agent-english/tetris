@@ -9,6 +9,7 @@ Field::Field(){
     matrix_ = new short int[FIELD_SIZE_Y];
     for(int i = 0; i < FIELD_SIZE_X; matrix_[i++] = 0);//matrix init
     vertical_boarder_ = '|';
+    horizontal_boarder_ = '/';
 
     /* int centre_x = getmaxx(stdscr) / 2; */ 
     /* int centre_y = getmaxy(stdscr) / 2; */
@@ -18,9 +19,10 @@ Field::Field(){
     position_ = temp;
 }
 
-bool Field::fill(Position *position){
-    if(*(matrix_ + position->y) && (1 << position->x)) return true;
-    else return false;
+void Field::fill(Position *position){
+    for(int i = 0; i < 4; i++){
+        matrix_[position[i].y] |= 1 << position[i].x;
+    }
 }
 
 short int ** Field::get_matrix(){  
@@ -41,8 +43,9 @@ void Field::print_field(){
         attroff(COLOR_PAIR(1));
         attron(COLOR_PAIR(1));
         for(int j = FIELD_SIZE_X - 1; j >= 0; j--){
-            if(*(matrix_ + i) && (0x1 << j)) addstr("Co"); // some temp value. i will put matrix here
-            //addstr("Co");
+            if(*(matrix_ + i) & (0x1 << j)){
+                addstr("Co"); // some temp value. i will put matrix here
+            }
             temp.x += 2;
             move(temp.y, temp.x);
         }
@@ -52,10 +55,10 @@ void Field::print_field(){
         move(temp.y, temp.x);
     } 
     //temp.y++;
-    for(int j = FIELD_SIZE_X + 1; j > 0; j--){
+    for(int j = (FIELD_SIZE_X  * 2) + 2; j > 0; j--){
         move(temp.y, temp.x);
-        addstr("//"); // some temp value. i will put matrix here
-        temp.x += 2;
+        addch(horizontal_boarder_); // some temp value. i will put matrix here
+        temp.x += 1;
     }
 }
 

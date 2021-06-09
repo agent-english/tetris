@@ -24,6 +24,7 @@ public:
         //addch('s');
         offset_ = new Position[size_];
         matrix_ = field->get_matrix();
+        is_hit_ = false;
         //I should never use virtual funcs int the constractors
     }
     void init_offset(Position *offset);
@@ -49,6 +50,7 @@ private:
     Position startPosition_;
     Position *offset_; //4
     short int **matrix_; //it is a pointer to field's matrix
+    bool is_hit_;
 };
 
 class Shape_I : public Shape{ //start position: horizontal

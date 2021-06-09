@@ -38,8 +38,12 @@ void Shape::move_shape(){
         default:
             break;
         };
-       
-      if((temp_x || temp_y) && !out_of_boarders(temp_x, temp_y)) { //checks if some changes happend and they are in the field area
+        for(uint i = 0; i < size_; i++){
+                offset_[i].x += temp_x;
+                offset_[i].y += temp_y;
+                //sleep(5);
+            }
+    /* if((temp_x || temp_y) && !out_of_boarders(temp_x, temp_y)) { //checks if some changes happend and they are in the field area
         Position *temp = new Position[size_];
         for(uint i = 0; i < size_; i++){
             temp[i].x = offset_[i].x + temp_x;
@@ -51,8 +55,8 @@ void Shape::move_shape(){
                 offset_[i].y = temp[i].y;
                 //sleep(5);
             }
-        }
-    }
+        } 
+    }*/
 }
 
 bool Shape::out_of_boarders(int x, int y){
@@ -78,9 +82,17 @@ bool Shape::is_settable(Position *offset){//this func works incorrect. do someth
     return result;
 }
 
-bool Shape::check_hit(){
+bool Shape::check_hit(){//this func checks the hit while shape is moving and when we need to create a new shape
+    if(is_hit_) return true;
     for(uint8 i; i < size_; i++){
-        if((matrix_[offset_[i].y + 1]) && (1 << offset_[i].x)) return true;
+        if(offset_[i].y + 1 >= FIELD_SIZE_Y){
+            is_hit_ = true;
+            return is_hit_;
+        }
+        if((*(*(matrix_) + offset_[i].y + 1)) & (1 << offset_[i].x)){ 
+            is_hit_ = true;
+            return is_hit_;
+        }
     }
     return false;
 }

@@ -9,7 +9,7 @@
 
 int main(){
     Game tetris;
-    //tetris.init();
+    tetris.init();
     /* int centre_x = getmaxx(stdscr) / 2; 
     int centre_y = getmaxy(stdscr) / 2;
     std::cout << centre_y << " " << centre_x << std::endl;
