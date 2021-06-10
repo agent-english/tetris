@@ -16,17 +16,7 @@ typedef unsigned char uint8;
 
 class Shape{
 public:
-    explicit Shape(Field *field, uint8 size) : size_(size){
-        block_ = new uint8[size_];
-        startPosition_.x = CENTRE_X + FIELD_SIZE_X;
-        startPosition_.y = CENTRE_Y - FIELD_SIZE_Y / 2;
-        //move(startPosition_.y,startPosition_.x);
-        //addch('s');
-        offset_ = new Position[size_];
-        matrix_ = field->get_matrix();
-        is_hit_ = false;
-        //I should never use virtual funcs int the constractors
-    }
+    explicit Shape(Field *field, uint8 size);
     void init_offset(Position *offset);
     Position *get_offset();
     Position get_start_position();
@@ -35,9 +25,11 @@ public:
         if(this != NULL){
             delete [] block_;
             delete [] offset_;
+            //this = NULL;
         }
     }
 
+    Position getPosition(uint8 index);
     void move_shape();
     bool out_of_boarders(int x, int y);
     bool is_settable(Position *offset);

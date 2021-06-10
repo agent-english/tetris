@@ -5,8 +5,24 @@
 
 extern bool gameOver;
 
+Shape::Shape(Field *field, uint8 size) : size_(size){
+        block_ = new uint8[size_];
+        startPosition_.x = CENTRE_X + FIELD_SIZE_X;
+        startPosition_.y = CENTRE_Y - FIELD_SIZE_Y / 2;
+        //move(startPosition_.y,startPosition_.x);
+        //addch('s');
+        offset_ = new Position[size_];
+        matrix_ = field->get_matrix();
+        is_hit_ = false;
+        //I should never use virtual funcs int the constractors
+    }
+
 uint8 Shape::get_size(){
     return size_;
+}
+
+Position Shape::getPosition(uint8 index){
+    return offset_[index];
 }
 
 void Shape::init_offset(Position *offset){
@@ -38,25 +54,20 @@ void Shape::move_shape(){
         default:
             break;
         };
-        for(uint i = 0; i < size_; i++){
-                offset_[i].x += temp_x;
-                offset_[i].y += temp_y;
-                //sleep(5);
-            }
-    /* if((temp_x || temp_y) && !out_of_boarders(temp_x, temp_y)) { //checks if some changes happend and they are in the field area
+    if((temp_x || temp_y) && !out_of_boarders(temp_x, temp_y)) { //checks if some changes happend and they are in the field area
         Position *temp = new Position[size_];
-        for(uint i = 0; i < size_; i++){
+        for(uint8 i = 0; i < size_; i++){
             temp[i].x = offset_[i].x + temp_x;
             temp[i].y = offset_[i].y + temp_y;
         }
         if(is_settable(temp)){//checks if the movement is possible and set new offset values
-            for(uint i = 0; i < size_; i++){
+            for(uint8 i = 0; i < size_; i++){
                 offset_[i].x = temp[i].x;
                 offset_[i].y = temp[i].y;
                 //sleep(5);
             }
         } 
-    }*/
+    }
 }
 
 bool Shape::out_of_boarders(int x, int y){
