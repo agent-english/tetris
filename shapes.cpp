@@ -3,6 +3,8 @@
 #include <unistd.h>
 #include "shapes.hpp"
 
+static unsigned int counter = 0;
+
 extern bool gameOver;
 
 Shape::Shape(Field *field, uint8 size) : size_(size){
@@ -32,7 +34,19 @@ void Shape::init_offset(Position *offset){
     }
 }
 void Shape::move_shape(){
-    int direction = getch();//I'm not sure what exectly this func returns. maybe if there is no cathced char, it returns -1
+    int direction = 0;
+    while(true){
+        if(counter++ > 0xfffff){
+            counter = 0;
+            for(uint8 i = 0; i < size_; i++){
+                offset_[i].y += 1;
+            }
+            break;
+        }
+        direction = getch();
+        if (direction != -1) break;
+    }
+    //int direction = getch();//I'm not sure what exectly this func returns. maybe if there is no cathced char, it returns -1
     int temp_y = 0;
     int temp_x = 0;
     switch(direction){ // select the direction
@@ -60,13 +74,13 @@ void Shape::move_shape(){
             temp[i].x = offset_[i].x + temp_x;
             temp[i].y = offset_[i].y + temp_y;
         }
-        if(is_settable(temp)){//checks if the movement is possible and set new offset values
+        //if(is_settable(temp)){//checks if the movement is possible and set new offset values
             for(uint8 i = 0; i < size_; i++){
                 offset_[i].x = temp[i].x;
                 offset_[i].y = temp[i].y;
                 //sleep(5);
             }
-        } 
+        //} 
     }
 }
 
@@ -95,7 +109,7 @@ bool Shape::is_settable(Position *offset){//this func works incorrect. do someth
 
 bool Shape::check_hit(){//this func checks the hit while shape is moving and when we need to create a new shape
     if(is_hit_) return true;
-    for(uint8 i; i < size_; i++){
+    for(uint8 i = 0; i < size_; i++){
         if(offset_[i].y + 1 >= FIELD_SIZE_Y){
             is_hit_ = true;
             return is_hit_;

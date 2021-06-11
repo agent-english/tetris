@@ -19,7 +19,7 @@ int Game::init(){
     init_pair(6, COLOR_RED, COLOR_RED);
     init_pair(7, COLOR_MAGENTA, COLOR_MAGENTA);
     init_pair(8, COLOR_GREEN, COLOR_GREEN);
-    //curs_set(0); //makes cursor invisible 
+    curs_set(0); //makes cursor invisible 
     return 0;
 }
 
@@ -78,63 +78,23 @@ int Game::init(){
     return 0;
 }
 */
-/* int Game::mainloop(){
-    static bool nextShape = 0;
-    Field *field = new Field;
-    Shape *currentShape = NULL;
-    Shape_I shape(field);
-    currentShape = &shape;
-    Position *position = new Position[4];
-    for(int i = 0; i < 4; i++){
-        position[i].y = FIELD_SIZE_Y - 1;
-        position[i].x = i;
-    }
-    field->fill(position);
-    while(!gameOver){
-        field->print_field();   
-        currentShape->move_shape();
-        currentShape->print();
-        refresh();
-        usleep(50000);
-        clear();
-        
-        if(currentShape->check_hit()){
-            Position *addBlock = new Position[4];
-            for(uint8 i = 0; i < 4; i++){
-                addBlock[i] = currentShape->getPosition(i);
-            }
-            //field->fill(addBlock);
-            //currentShape->~Shape();
-            //currentShape = NULL;
-            Shape_I shape(field);
-            currentShape = &shape;
-
-        } 
-        if(currentShape->check_hit()){
-            field->delete_lines();
-            currentShape->~Shape();
-            currentShape = NULL;
-        }
-    }
-    endwin();
-    return 0;
-} */
 
 int Game::mainloop(){
     static bool nextShape = 0;
     Field *field = new Field;
     Shape *currentShape = NULL;
     while(!gameOver){
+        //do_tick();
         if(currentShape == NULL){
             Shape_I shape(field);
             currentShape = &shape;
             do{
-                field->print_field();   
-                currentShape->move_shape();
-                currentShape->print();
+                field->print_field(); 
+                currentShape->print(); 
                 refresh();
                 usleep(50000);
-                clear();
+                currentShape->move_shape();
+                clear(); 
                 if(currentShape->check_hit()){
                     Position *addBlock = new Position[4];
                     for(uint8 i = 0; i < 4; i++){
