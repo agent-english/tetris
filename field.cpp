@@ -66,3 +66,20 @@ Position Field::get_position(){
     return position_;
 }
 
+int Field::checkLines(){
+    int result = 0;
+    for(int i = FIELD_SIZE_Y - 1; i >= 0; i--){
+        if (matrix_[i] == 0b1111111111){
+            result++;
+            delete_line(i);
+            i--;
+        }
+    }
+    return result;
+}
+
+void Field::delete_line(int line){
+    for (uint8_t i = line; i > 0; i--){
+        matrix_[i] = matrix_[i - 1];
+    }
+}

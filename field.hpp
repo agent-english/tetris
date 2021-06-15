@@ -8,7 +8,8 @@ struct Field{
 public:
     Field();
     void fill(Position *position);
-    void delete_lines();
+    int checkLines();
+    void delete_line(int line);
     void print_field(); // with boarders
     Position get_position();
     short int **get_matrix();

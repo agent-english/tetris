@@ -11,8 +11,6 @@ Shape::Shape(Field *field, uint8 size) : size_(size){
         block_ = new uint8[size_];
         startPosition_.x = CENTRE_X + FIELD_SIZE_X;
         startPosition_.y = CENTRE_Y - FIELD_SIZE_Y / 2;
-        //move(startPosition_.y,startPosition_.x);
-        //addch('s');
         offset_ = new Position[size_];
         matrix_ = field->get_matrix();
         is_hit_ = false;
@@ -36,7 +34,7 @@ void Shape::init_offset(Position *offset){
 void Shape::move_shape(){
     int direction = 0;
     while(true){
-        if(counter++ > 0xfffff){
+        if(counter++ > 0xaffff){
             counter = 0;
             for(uint8 i = 0; i < size_; i++){
                 offset_[i].y += 1;
@@ -129,8 +127,7 @@ Position Shape::get_start_position(){
     return startPosition_;
 }
 
-void Shape_I::print(){
-    attron(COLOR_PAIR(COLOR_I));
+void Shape::print(){
     uint size = get_size();
     Position *offset = new Position[size];
     offset = get_offset();
@@ -139,6 +136,53 @@ void Shape_I::print(){
         move(start_position.y + offset[i].y, start_position.x - (offset[i].x * 2) - 1);
         addstr("II");
     }
+}
+
+void Shape_I::print(){
+    attron(COLOR_PAIR(COLOR_I));
+    Shape::print();
     attroff(COLOR_PAIR(COLOR_I));
+    //delete [] offset; //I need to find out if it is necessary. This proj should never have memory leak
+}
+
+void Shape_J::print(){
+    attron(COLOR_PAIR(COLOR_J));
+    Shape::print();
+    attroff(COLOR_PAIR(COLOR_J));
+    //delete [] offset; //I need to find out if it is necessary. This proj should never have memory leak
+}
+
+void Shape_O::print(){
+    attron(COLOR_PAIR(COLOR_O));
+    Shape::print();
+    attroff(COLOR_PAIR(COLOR_O));
+    //delete [] offset; //I need to find out if it is necessary. This proj should never have memory leak
+}
+
+void Shape_L::print(){
+    attron(COLOR_PAIR(COLOR_L));
+    Shape::print();
+    attroff(COLOR_PAIR(COLOR_L));
+    //delete [] offset; //I need to find out if it is necessary. This proj should never have memory leak
+}
+
+void Shape_Z::print(){
+    attron(COLOR_PAIR(COLOR_Z));
+    Shape::print();
+    attroff(COLOR_PAIR(COLOR_Z));
+    //delete [] offset; //I need to find out if it is necessary. This proj should never have memory leak
+}
+
+void Shape_T::print(){
+    attron(COLOR_PAIR(COLOR_T));
+    Shape::print();
+    attroff(COLOR_PAIR(COLOR_T));
+    //delete [] offset; //I need to find out if it is necessary. This proj should never have memory leak
+}
+
+void Shape_S::print(){
+    attron(COLOR_PAIR(COLOR_S));
+    Shape::print();
+    attroff(COLOR_PAIR(COLOR_S));
     //delete [] offset; //I need to find out if it is necessary. This proj should never have memory leak
 }

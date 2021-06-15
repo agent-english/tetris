@@ -47,17 +47,7 @@ private:
 
 class Shape_I : public Shape{ //start position: horizontal
 public:
-    Shape_I(Field *field) : Shape(field, 4){ //вызывается конструктор Shape
-        uint8 size = get_size();
-        Position *offset = new Position[size];
-        for(uint8 i = 0; i < size; i++){
-            offset[i].x = 6 - i;
-            offset[i].y = 0;
-        }
-        init_offset(offset);
-        delete [] offset;
-        colour_ = 1;
-    }  
+    Shape_I(Field *field);  
     void rotate();
     bool can_rotate();
     void print();
@@ -67,60 +57,62 @@ private:
 
 class Shape_J : public Shape{
 public:
-    Shape_J(); //вызывается конструктор Shape
+    Shape_J(Field *field);
     void rotate();
     bool can_rotate();
-
+    void print();
 private:
-    int colour;
+    int colour_;
 };
 
 class Shape_O : public Shape{
 public:
-    Shape_O(); //вызывается конструктор Shape
+    Shape_O(Field *field);
     void rotate();
     bool can_rotate();
-
+    void print();
 private:
-    int colour;
+    int colour_;
 };
 
 class Shape_L : public Shape{
 public:
-    Shape_L(); //вызывается конструктор Shape
+    Shape_L(Field *field);
     void rotate();
     bool can_rotate();
-
+    void print();
 private:
-    int colour;
+    int colour_;
 };
 
 class Shape_Z : public Shape{
 public:
-    Shape_Z(); //вызывается конструктор Shape
+    Shape_Z(Field *field);
     void rotate();
     bool can_rotate();
-
+    void print();
 private:
-    int colour;
+    int colour_;
 };
 
 class Shape_T : public Shape{
 public:
-    Shape_T(); //вызывается конструктор Shape
+    Shape_T(Field *field);
     void rotate();
     bool can_rotate();
+    void print();
 
 private:
-    int colour;
+    int colour_;
 };
 
 class Shape_S : public Shape{
 public:
-    Shape_S(); //вызывается конструктор Shape
+    Shape_S(Field *field);
     void rotate();
     bool can_rotate();
+    void print();
 
 private:
-    int colour;
+    int colour_;
 };
