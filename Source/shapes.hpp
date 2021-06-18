@@ -6,7 +6,7 @@
 
 #define SPEED SPEED_1
 
-#define SPEED_1 0xFFFFF
+#define SPEED_1 0xFFFF
 #define SPEED_2 0xEFFFF
 #define SPEED_3 0xDFFFF
 #define SPEED_4 0xCFFFF

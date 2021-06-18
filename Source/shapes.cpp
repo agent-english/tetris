@@ -49,10 +49,12 @@ void Shape::move_shape(){
             temp[i].x = offset_[i].x + temp_x;
             temp[i].y = offset_[i].y + temp_y;
         }
+        if(is_settable(temp)){
             for(uint8 i = 0; i < size_; i++){
                 offset_[i].x = temp[i].x;
                 offset_[i].y = temp[i].y;
             }
+        }
     }
 }
 
