@@ -14,6 +14,7 @@ public:
     void setScore(Field *field);
     int getScore();
     void printScore();
+    void printGameOver();
 private:
     int score_;
 };

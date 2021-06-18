@@ -45,7 +45,8 @@ public:
 
     void move_shape();
     bool out_of_boarders(int x, int y);
-    bool is_settable(Position *offset);//возможно ненужная функция. удалить потом
+    bool is_settable(Position *offset);
+    bool is_settable(); // for checking the end of the game
     bool check_hit();
 
     virtual bool rotate();

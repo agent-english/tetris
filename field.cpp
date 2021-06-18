@@ -72,7 +72,7 @@ int Field::checkLines(){
         if (matrix_[i] == 0b1111111111){
             result++;
             delete_line(i);
-            i--;
+            i++;
         }
     }
     return result;

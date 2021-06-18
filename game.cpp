@@ -89,14 +89,19 @@ int Game::mainloop(){
             currentShape = &shape1;
             moveShape(this, field, currentShape); */
             setScore(field);
-            currentShape = NULL;
         }  
+        currentShape = NULL;
     }
+    this->printGameOver();
     endwin();
     return 0;
 }
 
 void moveShape(Game *game, Field *field, Shape *currentShape){
+    if(currentShape->is_settable() == false){
+        gameOver = true;
+        return;
+    }
     do{
         field->print_field(); 
         currentShape->print();
@@ -139,4 +144,12 @@ void Game::setScore(Field *field){
 
 void Game::printScore(){
     mvprintw(0,0, "Score : %d", score_);
+}
+
+void Game::printGameOver(){
+    sleep(2);
+    clear();
+    mvprintw(CENTRE_Y,CENTRE_X, "GAME OVER");
+    refresh();
+    sleep(10);
 }
