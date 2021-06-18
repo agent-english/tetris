@@ -85,7 +85,7 @@ int Game::mainloop(){
                     break;
                 }
             };*/
-            Shape_I shape1(field);
+            Shape_J shape1(field);
             currentShape = &shape1;
             moveShape(this, field, currentShape);
             setScore(field);

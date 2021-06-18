@@ -233,30 +233,30 @@ bool Shape_J::rotate(){
     }
     switch(orientation_){
         case HORIZONTAL:{
-            tempPosition[0].x += 1;
-            tempPosition[0].y += 1;
-            tempPosition[2].x -= 1;
-            tempPosition[2].y -= 1;
-            tempPosition[3].x -= 2;
-            tempPosition[3].y -= 2;
+            tempPosition[0].x -= 1;
+            tempPosition[0].y -= 1;
+            tempPosition[2].x += 1;
+            tempPosition[2].y += 1;
+            tempPosition[3].x += 2;
             if (is_settable(tempPosition)){
                 set_offset(tempPosition);
                 orientation_ = VERTICAL;
                 result = true;
             }
+            break;
         }
         case VERTICAL:{
-            tempPosition[0].x += 1;
+            tempPosition[0].x -= 1;
             tempPosition[0].y += 1;
-            tempPosition[2].x -= 1;
+            tempPosition[2].x += 1;
             tempPosition[2].y -= 1;
-            tempPosition[3].x -= 2;
             tempPosition[3].y -= 2;
             if (is_settable(tempPosition)){
                 set_offset(tempPosition);
-                orientation_ = VERTICAL;
+                orientation_ = HORIZONTAL_LJT;
                 result = true;
             }
+            break;
         }
         case HORIZONTAL_LJT:{
             tempPosition[0].x += 1;
@@ -264,25 +264,25 @@ bool Shape_J::rotate(){
             tempPosition[2].x -= 1;
             tempPosition[2].y -= 1;
             tempPosition[3].x -= 2;
-            tempPosition[3].y -= 2;
             if (is_settable(tempPosition)){
                 set_offset(tempPosition);
-                orientation_ = VERTICAL;
+                orientation_ = VERTICAL_LJT;
                 result = true;
             }
+            break;
         }
         case VERTICAL_LJT:{
             tempPosition[0].x += 1;
-            tempPosition[0].y += 1;
+            tempPosition[0].y -= 1;
             tempPosition[2].x -= 1;
-            tempPosition[2].y -= 1;
-            tempPosition[3].x -= 2;
-            tempPosition[3].y -= 2;
+            tempPosition[2].y += 1;
+            tempPosition[3].y += 2;
             if (is_settable(tempPosition)){
                 set_offset(tempPosition);
-                orientation_ = VERTICAL;
+                orientation_ = HORIZONTAL;
                 result = true;
             }
+            break;
         }
     };
     return result;
