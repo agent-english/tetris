@@ -96,14 +96,14 @@ Shape_Z::Shape_Z(Field *field) : Shape(field, 4){ //вызывается кон�
 Shape_S::Shape_S(Field *field) : Shape(field, 4){ //вызывается конструктор Shape
         uint8 size = get_size();
         Position *offset = new Position[size];
-        offset[0].x = 3;
-        offset[0].y = 0;
+        offset[0].x = 5;
+        offset[0].y = 1;
         offset[1].x = 4;
-        offset[1].y = 0;
+        offset[1].y = 1;
         offset[2].x = 4;
-        offset[2].y = 1;
-        offset[3].x = 5;
-        offset[3].y = 1;
+        offset[2].y = 0;
+        offset[3].x = 3;
+        offset[3].y = 0;
         init_offset(offset);
         delete [] offset;
         colour_ = 1;
