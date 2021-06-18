@@ -7,34 +7,11 @@ static unsigned int counter = 0;
 
 extern bool gameOver;
 
-Shape::Shape(Field *field, uint8 size) : size_(size){
-        block_ = new uint8[size_];
-        startPosition_.x = CENTRE_X + FIELD_SIZE_X;
-        startPosition_.y = CENTRE_Y - FIELD_SIZE_Y / 2;
-        offset_ = new Position[size_];
-        matrix_ = field->get_matrix();
-        is_hit_ = false;
-        //I should never use virtual funcs int the constractors
-    }
-
-uint8 Shape::get_size(){
-    return size_;
-}
-
-Position Shape::getPosition(uint8 index){
-    return offset_[index];
-}
-
-void Shape::init_offset(Position *offset){
-    for(uint8 i = 0; i < size_; i++){
-        offset_[i].x = offset[i].x;
-        offset_[i].y = offset[i].y;
-    }
-}
 void Shape::move_shape(){
     int direction = 0;
-    while(true){
-        if(counter++ > 0xaffff){
+
+    while(true){            //clock
+        if(counter++ > SPEED){
             counter = 0;
             for(uint8 i = 0; i < size_; i++){
                 offset_[i].y += 1;
@@ -44,12 +21,12 @@ void Shape::move_shape(){
         direction = getch();
         if (direction != -1) break;
     }
-    //int direction = getch();//I'm not sure what exectly this func returns. maybe if there is no cathced char, it returns -1
+
     int temp_y = 0;
     int temp_x = 0;
     switch(direction){ // select the direction
         case KEY_UP:
-            temp_y -= 1;
+            rotate();
             break;
         case KEY_DOWN:
             temp_y += 1;
@@ -72,15 +49,28 @@ void Shape::move_shape(){
             temp[i].x = offset_[i].x + temp_x;
             temp[i].y = offset_[i].y + temp_y;
         }
-        //if(is_settable(temp)){//checks if the movement is possible and set new offset values
             for(uint8 i = 0; i < size_; i++){
                 offset_[i].x = temp[i].x;
                 offset_[i].y = temp[i].y;
-                //sleep(5);
             }
-        //} 
     }
 }
+
+uint8 Shape::get_size(){
+    return size_;
+}
+
+Position Shape::getPosition(uint8 index){
+    return offset_[index];
+}
+
+void Shape::init_offset(Position *offset){
+    for(uint8 i = 0; i < size_; i++){
+        offset_[i].x = offset[i].x;
+        offset_[i].y = offset[i].y;
+    }
+}
+
 
 bool Shape::out_of_boarders(int x, int y){
     int temp_x, temp_y;
@@ -90,19 +80,6 @@ bool Shape::out_of_boarders(int x, int y){
         if(temp_y > FIELD_SIZE_Y - 1 || temp_y < 0 || temp_x < 0 || temp_x > FIELD_SIZE_X - 1) return true;
     }
     return false;
-}
-
-bool Shape::is_settable(Position *offset){//this func works incorrect. do something with it
-    bool result = true;
-    bool match;
-    for(int i = 0; i < FIELD_SIZE_Y; i++){
-        match = *(*matrix_ + offset[i].y) && 1 << offset[i].x;
-        if(match) {
-            result = false;
-            return result;
-        }
-    }
-    return result;
 }
 
 bool Shape::check_hit(){//this func checks the hit while shape is moving and when we need to create a new shape
@@ -123,66 +100,222 @@ bool Shape::check_hit(){//this func checks the hit while shape is moving and whe
 Position * Shape::get_offset(){
     return offset_;
 }
+
+void Shape::set_offset(Position *offset){
+    for(int i = 0; i < size_; i++){
+        offset_[i] = offset[i];
+    }
+}
+
+bool Shape::is_settable(Position *offset){//this func works incorrect. do something with it
+    bool result = true;
+    for(int i = 0; i < size_; i++){
+        if((*(*(matrix_) + (offset[i].y))) & (1 << offset[i].x)){
+            result = false;
+            break;
+        }
+    }
+    return result;
+}
+
 Position Shape::get_start_position(){
     return startPosition_;
 }
 
-void Shape::print(){
-    uint size = get_size();
-    Position *offset = new Position[size];
-    offset = get_offset();
-    Position start_position = get_start_position();
-    for(uint i = 0; i < size; i++){
-        move(start_position.y + offset[i].y, start_position.x - (offset[i].x * 2) - 1);
-        addstr("II");
+bool Shape::rotate(){
+    //__nop();
+    return false;
+}
+
+bool Shape_I::rotate(){
+    bool result = false;
+    Position tempPosition[4];
+    for(int i = 0; i < 4; i++){
+        tempPosition[i] = getPosition(i);
     }
+    if(orientation_ == HORIZONTAL){
+        tempPosition[0].x -= 2;
+        tempPosition[0].y -= 2;
+        tempPosition[1].x -= 1;
+        tempPosition[1].y -= 1;
+        tempPosition[3].x += 1;
+        tempPosition[3].y += 1;
+        if (is_settable(tempPosition)){
+                set_offset(tempPosition);
+                orientation_ = VERTICAL;
+                result = true;
+        }
+    }
+    else{
+        tempPosition[0].x += 2;
+        tempPosition[0].y += 2;
+        tempPosition[1].x += 1;
+        tempPosition[1].y += 1;
+        tempPosition[3].x -= 1;
+        tempPosition[3].y -= 1;
+        if (is_settable(tempPosition)){
+                set_offset(tempPosition);
+                orientation_ = HORIZONTAL;
+                result = true;
+        }
+    }
+    return result;
 }
 
-void Shape_I::print(){
-    attron(COLOR_PAIR(COLOR_I));
-    Shape::print();
-    attroff(COLOR_PAIR(COLOR_I));
-    //delete [] offset; //I need to find out if it is necessary. This proj should never have memory leak
+bool Shape_L::rotate(){
+    bool result = false;
+    Position tempPosition[4];
+    for(int i = 0; i < 4; i++){
+        tempPosition[i] = getPosition(i);
+    }
+    switch(orientation_){
+        case HORIZONTAL:{
+            tempPosition[0].x += 1;
+            tempPosition[0].y += 1;
+            tempPosition[2].x -= 1;
+            tempPosition[2].y -= 1;
+            tempPosition[3].y -= 2;
+            if (is_settable(tempPosition)){
+                set_offset(tempPosition);
+                orientation_ = VERTICAL;
+                result = true;
+            }
+            break;
+        }
+        case VERTICAL:{
+            tempPosition[0].x += 1;
+            tempPosition[0].y -= 1;
+            tempPosition[2].x -= 1;
+            tempPosition[2].y += 1;
+            tempPosition[3].x -= 2;
+            if (is_settable(tempPosition)){
+                set_offset(tempPosition);
+                orientation_ = HORIZONTAL_LJT;
+                result = true;
+            }
+            break;
+        }
+        case HORIZONTAL_LJT:{
+            tempPosition[0].x -= 1;
+            tempPosition[0].y -= 1;
+            tempPosition[2].x += 1;
+            tempPosition[2].y += 1;
+            tempPosition[3].y += 2;
+            if (is_settable(tempPosition)){
+                set_offset(tempPosition);
+                orientation_ = VERTICAL_LJT;
+                result = true;
+            }
+            break;
+        }
+        case VERTICAL_LJT:{
+            tempPosition[0].x -= 1;
+            tempPosition[0].y += 1;
+            tempPosition[2].x += 1;
+            tempPosition[2].y -= 1;
+            tempPosition[3].x += 2;
+            if (is_settable(tempPosition)){
+                set_offset(tempPosition);
+                orientation_ = HORIZONTAL;
+                result = true;
+            }
+            break;
+        }
+    };
+    return result;
 }
 
-void Shape_J::print(){
-    attron(COLOR_PAIR(COLOR_J));
-    Shape::print();
-    attroff(COLOR_PAIR(COLOR_J));
-    //delete [] offset; //I need to find out if it is necessary. This proj should never have memory leak
+bool Shape_J::rotate(){
+    bool result = false;
+    Position tempPosition[4];
+    for(int i = 0; i < 4; i++){
+        tempPosition[i] = getPosition(i);
+    }
+    switch(orientation_){
+        case HORIZONTAL:{
+            tempPosition[0].x += 1;
+            tempPosition[0].y += 1;
+            tempPosition[2].x -= 1;
+            tempPosition[2].y -= 1;
+            tempPosition[3].x -= 2;
+            tempPosition[3].y -= 2;
+            if (is_settable(tempPosition)){
+                set_offset(tempPosition);
+                orientation_ = VERTICAL;
+                result = true;
+            }
+        }
+        case VERTICAL:{
+            tempPosition[0].x += 1;
+            tempPosition[0].y += 1;
+            tempPosition[2].x -= 1;
+            tempPosition[2].y -= 1;
+            tempPosition[3].x -= 2;
+            tempPosition[3].y -= 2;
+            if (is_settable(tempPosition)){
+                set_offset(tempPosition);
+                orientation_ = VERTICAL;
+                result = true;
+            }
+        }
+        case HORIZONTAL_LJT:{
+            tempPosition[0].x += 1;
+            tempPosition[0].y += 1;
+            tempPosition[2].x -= 1;
+            tempPosition[2].y -= 1;
+            tempPosition[3].x -= 2;
+            tempPosition[3].y -= 2;
+            if (is_settable(tempPosition)){
+                set_offset(tempPosition);
+                orientation_ = VERTICAL;
+                result = true;
+            }
+        }
+        case VERTICAL_LJT:{
+            tempPosition[0].x += 1;
+            tempPosition[0].y += 1;
+            tempPosition[2].x -= 1;
+            tempPosition[2].y -= 1;
+            tempPosition[3].x -= 2;
+            tempPosition[3].y -= 2;
+            if (is_settable(tempPosition)){
+                set_offset(tempPosition);
+                orientation_ = VERTICAL;
+                result = true;
+            }
+        }
+    };
+    return result;
 }
 
-void Shape_O::print(){
-    attron(COLOR_PAIR(COLOR_O));
-    Shape::print();
-    attroff(COLOR_PAIR(COLOR_O));
-    //delete [] offset; //I need to find out if it is necessary. This proj should never have memory leak
+bool Shape_T::rotate(){
+    bool result = false;
+    Position tempPosition[4];
+    for(int i = 0; i < 4; i++){
+        tempPosition[i] = getPosition(i);
+    }
+    switch(orientation_){
+        case HORIZONTAL:{
+
+        }
+        case VERTICAL:{
+
+        }
+        case HORIZONTAL_LJT:{
+            
+        }
+        case VERTICAL_LJT:{
+
+        }
+    };
+    return result;
 }
 
-void Shape_L::print(){
-    attron(COLOR_PAIR(COLOR_L));
-    Shape::print();
-    attroff(COLOR_PAIR(COLOR_L));
-    //delete [] offset; //I need to find out if it is necessary. This proj should never have memory leak
+bool Shape_Z::rotate(){
+    
 }
 
-void Shape_Z::print(){
-    attron(COLOR_PAIR(COLOR_Z));
-    Shape::print();
-    attroff(COLOR_PAIR(COLOR_Z));
-    //delete [] offset; //I need to find out if it is necessary. This proj should never have memory leak
+bool Shape_S::rotate(){
+    
 }
 
-void Shape_T::print(){
-    attron(COLOR_PAIR(COLOR_T));
-    Shape::print();
-    attroff(COLOR_PAIR(COLOR_T));
-    //delete [] offset; //I need to find out if it is necessary. This proj should never have memory leak
-}
-
-void Shape_S::print(){
-    attron(COLOR_PAIR(COLOR_S));
-    Shape::print();
-    attroff(COLOR_PAIR(COLOR_S));
-    //delete [] offset; //I need to find out if it is necessary. This proj should never have memory leak
-}

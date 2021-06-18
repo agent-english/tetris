@@ -35,7 +35,7 @@ int Game::mainloop(){
         if(currentShape == NULL){
             int randomShape = rand() % 7 + 1;
         /*следующий блок я бы хотел реализовать с помощью конструктора присваивания. то есть currentShape = ShapeI() и т.д.*/
-            switch (randomShape){
+            /*switch (randomShape){
                 case 1:{
                     Shape_I shape1(field);
                     currentShape = &shape1;
@@ -84,7 +84,10 @@ int Game::mainloop(){
                     moveShape(this, field, currentShape);
                     break;
                 }
-            };
+            };*/
+            Shape_I shape1(field);
+            currentShape = &shape1;
+            moveShape(this, field, currentShape);
             setScore(field);
             currentShape = NULL;
         }  
