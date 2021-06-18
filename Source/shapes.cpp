@@ -2,6 +2,7 @@
 #include <ctime>
 #include <unistd.h>
 #include "shapes.hpp"
+#include "game.hpp"
 
 static unsigned int counter = 0;
 

@@ -3,6 +3,17 @@
 #include "field.hpp"
 #include "shapes.hpp"
 
+#define SPEED SPEED_7
+
+#define SPEED_1 0xFFFFF
+#define SPEED_2 0xDFFFF
+#define SPEED_3 0xBFFFF
+#define SPEED_4 0x9FFFF
+#define SPEED_5 0x7FFFF
+#define SPEED_6 0x5FFFF
+#define SPEED_7 0x3FFFF
+#define SPEED_8 0x1FFFF
+
 class Game{
 public:
     Game(){

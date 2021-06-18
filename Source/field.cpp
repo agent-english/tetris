@@ -44,7 +44,7 @@ void Field::print_field(){
         attron(COLOR_PAIR(1));
         for(int j = FIELD_SIZE_X - 1; j >= 0; j--){
             if(*(matrix_ + i) & (0x1 << j)){
-                addstr("Co"); // some temp value. i will put matrix here
+                addstr("oo"); // some temp value. i will put matrix here
             }
             temp.x += 2;
             move(temp.y, temp.x);

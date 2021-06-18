@@ -4,19 +4,6 @@
 #include "coordinates.hpp"
 #include "field.hpp"
 
-#define SPEED SPEED_1
-
-#define SPEED_1 0xFFFF
-#define SPEED_2 0xEFFFF
-#define SPEED_3 0xDFFFF
-#define SPEED_4 0xCFFFF
-#define SPEED_5 0xBFFFF
-#define SPEED_6 0xAFFFF
-#define SPEED_7 0x9FFFF
-#define SPEED_8 0x8FFFF
-#define SPEED_9 0x7FFFF
-#define SPEED_10 0x6FFFF
-
 #define COLOR_I 2
 #define COLOR_J 3
 #define COLOR_O 4
