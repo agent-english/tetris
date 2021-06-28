@@ -28,8 +28,4 @@ private:
     int score_;
 };
 
-Game::Game(){
-    score = 0;
-}
-
 void moveShape(Game *game, Field *field, Shape *currentShape);

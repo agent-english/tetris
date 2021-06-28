@@ -8,6 +8,10 @@
 
 volatile bool gameOver = false;
 
+Game::Game(){
+    score_ = 0;
+}
+
 int Game::init(){
     initscr();
     nodelay(stdscr, true); //
