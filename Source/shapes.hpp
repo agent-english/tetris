@@ -4,13 +4,13 @@
 #include "coordinates.hpp"
 #include "field.hpp"
 
-#define COLOR_I 2
-#define COLOR_J 3
-#define COLOR_O 4
-#define COLOR_L 5
-#define COLOR_Z 6
-#define COLOR_T 7
-#define COLOR_S 8
+#define COLOR_I 2 // CYAN
+#define COLOR_L 3 // BLUE
+#define COLOR_J 4 // YELLOW
+#define COLOR_T 5 // WHITE
+#define COLOR_Z 6 // RED
+#define COLOR_S 7 // MAGENTA
+#define COLOR_O 8 // GREEN
 
 #define HORIZONTAL 1
 #define VERTICAL 2
@@ -55,7 +55,7 @@ public:
     bool rotate();
     void print();
 private:
-    int colour_; // CYAN
+    int colour_;
     int orientation_;
 };
 

@@ -44,7 +44,7 @@ void Shape::move_shape(){
         default:
             break;
         };
-    if((temp_x || temp_y) && !out_of_boarders(temp_x, temp_y)) { //checks if some changes happend and they are in the field area
+    if(temp_x || temp_y) { //checks if some changes happend
         Position *temp = new Position[size_];
         for(uint8 i = 0; i < size_; i++){
             temp[i].x = offset_[i].x + temp_x;
@@ -76,13 +76,8 @@ void Shape::init_offset(Position *offset){
 
 
 bool Shape::out_of_boarders(int x, int y){
-    int temp_x, temp_y;
-    for(uint i = 0; i < size_; i++){
-        temp_y = offset_[i].y + y;
-        temp_x = offset_[i].x + x;
-        if(temp_y > FIELD_SIZE_Y - 1 || temp_y < 0 || temp_x < 0 || temp_x > FIELD_SIZE_X - 1) return true;
-    }
-    return false;
+    if(y > FIELD_SIZE_Y - 1 || y < 0 || x < 0 || x > FIELD_SIZE_X - 1) return true;
+    else return false;
 }
 
 bool Shape::check_hit(){//this func checks the hit while shape is moving and when we need to create a new shape
@@ -110,10 +105,21 @@ void Shape::set_offset(Position *offset){
     }
 }
 
-bool Shape::is_settable(Position *offset){//this func works incorrect. do something with it
+bool Shape::is_settable(Position *offset){//checks if the movement is possible
     bool result = true;
     for(int i = 0; i < size_; i++){
-        if((*(*(matrix_) + (offset[i].y))) & (1 << offset[i].x)){
+        if((*(*(matrix_) + (offset[i].y))) & (1 << offset[i].x) || (out_of_boarders(offset[i].x, offset[i].y))){
+            result = false;
+            break;
+        }
+    }
+    return result;
+}
+
+bool Shape::is_settable(){//checks the end of the game
+    bool result = true;
+    for(int i = 0; i < size_; i++){
+        if((*(*(matrix_) + (offset_[i].y))) & (1 << offset_[i].x)){
             result = false;
             break;
         }
@@ -123,15 +129,4 @@ bool Shape::is_settable(Position *offset){//this func works incorrect. do someth
 
 Position Shape::get_start_position(){
     return startPosition_;
-}
-
-bool Shape::is_settable(){//this func works incorrect. do something with it
-    bool result = true;
-    for(int i = 0; i < size_; i++){
-        if((*(*(matrix_) + (offset_[i].y))) & (1 << offset_[i].x)){
-            result = false;
-            break;
-        }
-    }
-    return result;
 }

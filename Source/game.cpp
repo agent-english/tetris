@@ -14,13 +14,14 @@ int Game::init(){
     keypad(stdscr, true); //inits keypad
     start_color();
     init_pair(1, COLOR_BLACK, COLOR_WHITE); //boarders
+    //shapes:
     init_pair(2, COLOR_CYAN, COLOR_CYAN); // I
-    init_pair(3, COLOR_BLUE, COLOR_BLUE);
-    init_pair(4, COLOR_YELLOW, COLOR_YELLOW);
-    init_pair(5, COLOR_WHITE, COLOR_WHITE);
-    init_pair(6, COLOR_RED, COLOR_RED);
-    init_pair(7, COLOR_MAGENTA, COLOR_MAGENTA);
-    init_pair(8, COLOR_GREEN, COLOR_GREEN);
+    init_pair(3, COLOR_BLUE, COLOR_BLUE); // L
+    init_pair(4, COLOR_YELLOW, COLOR_YELLOW); // J
+    init_pair(5, COLOR_WHITE, COLOR_WHITE); // T
+    init_pair(6, COLOR_RED, COLOR_RED); // Z
+    init_pair(7, COLOR_MAGENTA, COLOR_MAGENTA); // S
+    init_pair(8, COLOR_GREEN, COLOR_GREEN); // O
     curs_set(0); //makes cursor invisible 
     return 0;
 }
@@ -31,10 +32,8 @@ int Game::mainloop(){
     Shape *currentShape = NULL;
     srand(static_cast<unsigned int>(time(0)));
     while(!gameOver){
-        //do_tick();
         if(currentShape == NULL){
             int randomShape = rand() % 7 + 1;
-        //следующий блок я бы хотел реализовать с помощью конструктора присваивания. то есть currentShape = ShapeI() и т.д.
             switch (randomShape){
                 case 1:{
                     Shape_I shape1(field);
@@ -85,9 +84,6 @@ int Game::mainloop(){
                     break;
                 }
             };
-            /* Shape_S shape1(field);
-            currentShape = &shape1;
-            moveShape(this, field, currentShape); */
             setScore(field);
         }  
         currentShape = NULL;

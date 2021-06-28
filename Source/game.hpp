@@ -3,7 +3,7 @@
 #include "field.hpp"
 #include "shapes.hpp"
 
-#define SPEED SPEED_7
+#define SPEED SPEED_1
 
 #define SPEED_1 0xFFFFF
 #define SPEED_2 0xDFFFF
@@ -16,9 +16,7 @@
 
 class Game{
 public:
-    Game(){
-        score_ = 0;
-    }
+    Game();
     int init();
     int mainloop();
     void clock();
@@ -29,5 +27,9 @@ public:
 private:
     int score_;
 };
+
+Game::Game(){
+    score = 0;
+}
 
 void moveShape(Game *game, Field *field, Shape *currentShape);

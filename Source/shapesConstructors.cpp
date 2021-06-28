@@ -7,18 +7,16 @@ Shape::Shape(Field *field, uint8 size) : size_(size){
         offset_ = new Position[size_];
         matrix_ = field->get_matrix();
         is_hit_ = false;
-        //I should never use virtual funcs int the constractors
 }
 
 Shape::~Shape(){
-        if(this != NULL){
+        if(this != NULL){//for not to delete twice
             delete [] block_;
             delete [] offset_;
-            //this = NULL;
         }
     }
 
-Shape_I::Shape_I(Field *field) : Shape(field, 4){ //вызывается конструктор Shape
+Shape_I::Shape_I(Field *field) : Shape(field, 4){ //calls Shape constructor
         uint8 size = get_size();
         Position *offset = new Position[size];
         for(uint8 i = 0; i < size; i++){
@@ -31,7 +29,7 @@ Shape_I::Shape_I(Field *field) : Shape(field, 4){ //вызывается кон�
         orientation_ = HORIZONTAL;
 }
 
-Shape_L::Shape_L(Field *field) : Shape(field, 4){ //вызывается конструктор Shape
+Shape_L::Shape_L(Field *field) : Shape(field, 4){ //calls Shape constructor
         uint8 size = get_size();
         Position *offset = new Position[size];
         for(uint8 i = 0; i < (size - 1); i++){
@@ -46,7 +44,7 @@ Shape_L::Shape_L(Field *field) : Shape(field, 4){ //вызывается кон�
         orientation_ = HORIZONTAL;
 }
 
-Shape_J::Shape_J(Field *field) : Shape(field, 4){ //вызывается конструктор Shape
+Shape_J::Shape_J(Field *field) : Shape(field, 4){ //calls Shape constructor
         uint8 size = get_size();
         Position *offset = new Position[size];
         for(uint8 i = 0; i < (size - 1); i++){
@@ -57,11 +55,11 @@ Shape_J::Shape_J(Field *field) : Shape(field, 4){ //вызывается кон�
         offset[size - 1].y = 1;
         init_offset(offset);
         delete [] offset;
-        colour_ = 1;
+        colour_ = COLOR_J;
         orientation_ = HORIZONTAL;
 }
 
-Shape_T::Shape_T(Field *field) : Shape(field, 4){ //вызывается конструктор Shape
+Shape_T::Shape_T(Field *field) : Shape(field, 4){ //calls Shape constructor
         uint8 size = get_size();
         Position *offset = new Position[size];
         for(uint8 i = 0; i < (size - 1); i++){
@@ -72,11 +70,11 @@ Shape_T::Shape_T(Field *field) : Shape(field, 4){ //вызывается кон�
         offset[size - 1].y = 1;
         init_offset(offset);
         delete [] offset;
-        colour_ = 1;
+        colour_ = COLOR_T;
         orientation_ = HORIZONTAL;
 }
 
-Shape_Z::Shape_Z(Field *field) : Shape(field, 4){ //вызывается конструктор Shape
+Shape_Z::Shape_Z(Field *field) : Shape(field, 4){ //calls Shape constructor
         uint8 size = get_size();
         Position *offset = new Position[size];
         offset[0].x = 5;
@@ -89,11 +87,11 @@ Shape_Z::Shape_Z(Field *field) : Shape(field, 4){ //вызывается кон�
         offset[3].y = 1;
         init_offset(offset);
         delete [] offset;
-        colour_ = 1;
+        colour_ = COLOR_Z;
         orientation_ = HORIZONTAL;
 }
 
-Shape_S::Shape_S(Field *field) : Shape(field, 4){ //вызывается конструктор Shape
+Shape_S::Shape_S(Field *field) : Shape(field, 4){ //calls Shape constructor
         uint8 size = get_size();
         Position *offset = new Position[size];
         offset[0].x = 5;
@@ -106,11 +104,11 @@ Shape_S::Shape_S(Field *field) : Shape(field, 4){ //вызывается кон�
         offset[3].y = 0;
         init_offset(offset);
         delete [] offset;
-        colour_ = 1;
+        colour_ = COLOR_S;
         orientation_ = HORIZONTAL;
 }
 
-Shape_O::Shape_O(Field *field) : Shape(field, 4){ //вызывается конструктор Shape
+Shape_O::Shape_O(Field *field) : Shape(field, 4){ //calls Shape constructor
         uint8 size = get_size();
         Position *offset = new Position[size];
         offset[0].x = 5;
@@ -123,5 +121,5 @@ Shape_O::Shape_O(Field *field) : Shape(field, 4){ //вызывается кон�
         offset[3].y = 1;
         init_offset(offset);
         delete [] offset;
-        colour_ = 1;
+        colour_ = COLOR_O;
 }

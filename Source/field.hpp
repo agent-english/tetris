@@ -2,7 +2,7 @@
 
 #include "coordinates.hpp"
 
-//struct Position;
+#define FULL_LINE 0b1111111111
 
 struct Field{
 public:
@@ -10,7 +10,7 @@ public:
     void fill(Position *position);
     int checkLines();
     void delete_line(int line);
-    void print_field(); // with boarders
+    void print_field();
     Position get_position();
     short int **get_matrix();
 private:
@@ -19,4 +19,3 @@ private:
     char horizontal_boarder_;
     Position position_;
 };
-

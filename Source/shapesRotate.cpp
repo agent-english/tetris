@@ -2,8 +2,7 @@
 #include "coordinates.hpp"
 
 bool Shape::rotate(){
-    //__nop();
-    return false;
+    return false; //default
 }
 
 bool Shape_I::rotate(){
@@ -299,4 +298,3 @@ bool Shape_S::rotate(){
     }
     return result;
 }
-
