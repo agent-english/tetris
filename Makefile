@@ -1,5 +1,5 @@
 all:
-	g++ ./Source/main.cpp ./Source/field.cpp ./Source/game.cpp ./Source/shapes.cpp ./Source/shapesConstructors.cpp ./Source/shapesPrint.cpp ./Source/shapesRotate.cpp -lncurses
+	g++ -O0 ./Source/main.cpp ./Source/field.cpp ./Source/game.cpp ./Source/shapes.cpp ./Source/shapesConstructors.cpp ./Source/shapesPrint.cpp ./Source/shapesRotate.cpp -lncurses
 
 gdb:
 	g++ -g ./Source/main.cpp ./Source/field.cpp ./Source/game.cpp ./Source/shapes.cpp ./Source/shapesConstructors.cpp ./Source/shapesPrint.cpp ./Source/shapesRotate.cpp -lncurses -o debug.gdb
